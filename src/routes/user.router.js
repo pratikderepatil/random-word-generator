@@ -14,4 +14,19 @@ app.post("/register", async (req, res) => {
 	});
 });
 
+app.patch("/:id", async (req, res) => {
+	let { score, level } = req.body;
+	let id = req.params;
+	try {
+		const afterUpdate = await UserModel.findByIdAndUpdate(
+			id,
+			{ $set: { score: score, level: level } },
+			{ new: true }
+		);
+		return res.status(200).send(afterUpdate);
+	} catch (e) {
+		return res.status(401).send(e);
+	}
+});
+
 module.exports = app;
